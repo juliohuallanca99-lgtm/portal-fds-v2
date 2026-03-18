@@ -2,11 +2,156 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portal FDS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #0f4c75;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      color: #0f4c75;
+    }
+
+    .box {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    button {
+      background: #0f4c75;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1b6ca8;
+    }
+
+    .product {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .qr {
+      margin-top: 10px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Portal FDS – Operativo</h1>
-  <p>Este portal será desplegado en Vercel.</p>
+
+<header>
+  <h1>📄 Portal FDS</h1>
+  <p>Almacén y Logística – Consulta de Hojas de Seguridad</p>
+</header>
+
+<main>
+
+  <!-- FORMULARIO -->
+  <div class="box">
+    <h2>➕ Registrar Producto Químico</h2>
+
+    <label>Nombre del producto</label>
+    <input id="nombre" placeholder="Ej. Ácido clorhídrico"/>
+
+    <label>Proveedor</label>
+    <input id="proveedor" placeholder="Ej. Química Perú SAC"/>
+
+    <label>URL de la FDS (PDF)</label>
+    <input id="url" placeholder="Pega aquí la URL del PDF de la Gota"/>
+
+    <button onclick="agregar()">Guardar producto</button>
+  </div>
+
+  <!-- LISTADO -->
+  <div class="box">
+    <h2>📦 Productos registrados</h2>
+    <div id="lista"></div>
+  </div>
+
+</main>
+
+<script>
+  const lista = document.getElementById("lista");
+
+  function cargar() {
+    lista.innerHTML = "";
+    const data = JSON.parse(localStorage.getItem("fds") || "[]");
+
+    data.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "product";
+
+      div.innerHTML = `
+        <strong>${p.nombre}</strong><br>
+        Proveedor: ${p.proveedor}<br>
+        <a href="${p.url}" target="_blank">📄 Abrir FDS</a>
+        <div class="qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url)}">
+        </div>
+      `;
+      lista.appendChild(div);
+    });
+  }
+
+  function agregar() {
+    const nombre = document.getElementById("nombre").value;
+    const proveedor = document.getElementById("proveedor").value;
+    const url = document.getElementById("url").value;
+
+    if (!nombre || !proveedor || !url) {
+      alert("Completa todos los campos");
+      return;
+    }
+
+    const data = JSON.parse(localStorage.getItem("fds") || "[]");
+    data.push({ nombre, proveedor, url });
+    localStorage.setItem("fds", JSON.stringify(data));
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("proveedor").value = "";
+    document.getElementById("url").value = "";
+
+    cargar();
+  }
+
+  cargar();
+</script>
+
 </body>
 </html>
