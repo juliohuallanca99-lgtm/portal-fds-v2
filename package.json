@@ -1,0 +1,9 @@
+{
+  "name": "portal-fds-v2",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "echo build"
+  }
+}
