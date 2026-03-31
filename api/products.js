@@ -6,7 +6,6 @@ import { kv } from '@vercel/kv';
 
 export default async function handler(request) {
   try {
-    // LISTAR productos
     if (request.method === 'GET') {
       const products = (await kv.get('products')) || [];
       return new Response(JSON.stringify(products), {
@@ -15,7 +14,6 @@ export default async function handler(request) {
       });
     }
 
-    // GUARDAR producto
     if (request.method === 'POST') {
       const body = await request.json();
       const { nombre, proveedor, url } = body;
@@ -56,3 +54,4 @@ export default async function handler(request) {
     );
   }
 }
+``
