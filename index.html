@@ -110,48 +110,15 @@
   const lista = document.getElementById("lista");
 
   function cargar() {
-    lista.innerHTML = "";
     const data = JSON.parse(localStorage.getItem("fds") || "[]");
-
-    data.forEach(p => {
-      const div = document.createElement("div");
-      div.className = "product";
-
-      div.innerHTML = `
-        <strong>${p.nombre}</strong><br>
-        Proveedor: ${p.proveedor}<br>
-        <a href="${p.url}" target="_blank">📄 Abrir FDS</a>
-        <div class="qr">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url)}">
-        </div>
-      `;
-      lista.appendChild(div);
-    });
+    ...
   }
 
   function agregar() {
-    const nombre = document.getElementById("nombre").value;
-    const proveedor = document.getElementById("proveedor").value;
-    const url = document.getElementById("url").value;
-
-    if (!nombre || !proveedor || !url) {
-      alert("Completa todos los campos");
-      return;
-    }
-
-    const data = JSON.parse(localStorage.getItem("fds") || "[]");
-    data.push({ nombre, proveedor, url });
+    ...
     localStorage.setItem("fds", JSON.stringify(data));
-
-    document.getElementById("nombre").value = "";
-    document.getElementById("proveedor").value = "";
-    document.getElementById("url").value = "";
-
-    cargar();
+    ...
   }
 
   cargar();
 </script>
-
-</body>
-</html>
