@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Administración FDS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+  <h1>🔒 Administración FDS</h1>
+  <p>Registro y mantenimiento de productos químicos</p>
+
+  <div>
+    <label>Nombre del producto</label>
+    <input id="nombre" placeholder="Ej. Ácido clorhídrico"/>
+
+    <label>Proveedor</label>
+    <input id="proveedor" placeholder="Ej. Química Perú SAC"/>
+
+    <label>URL de la FDS (PDF)</label>
+    <input id="url" placeholder="Pega la URL del PDF del Blob"/>
+
+    <button onclick="agregar()">Guardar producto</button>
+  </div>
+
+  <script>
+    async function agregar() {
+      const nombre = document.getElementById("nombre").value;
+      const proveedor = document.getElementById("proveedor").value;
+      const url = document.getElementById("url").value;
+
+      if (!nombre || !proveedor || !url) {
+        alert("Completa todos los campos");
+        return;
+      }
+
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, proveedor, url })
+      });
+
+      if (!res.ok) {
+        alert("Error al guardar producto");
+        return;
+      }
+
+      alert("Producto registrado correctamente ✅");
+
+      document.getElementById("nombre").value = "";
+      document.getElementById("proveedor").value = "";
+      document.getElementById("url").value = "";
+    }
+  </script>
+</body>
+</html>
+``
