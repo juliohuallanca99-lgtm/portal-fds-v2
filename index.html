@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <title>Portal FDS</title>
+
+  <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0f2a44">
+  <meta name="theme-color" content="#0f2a44">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <style>
@@ -30,6 +33,7 @@
 
     h2 {
       color: #0f4c75;
+      text-align: center;
     }
 
     .box {
@@ -40,23 +44,13 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-     button {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-
     button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
       background: #0f4c75;
       color: white;
       border: none;
-      margin-top: 15px;
       cursor: pointer;
     }
 
@@ -84,36 +78,22 @@
 
 <main>
 
-  <!-- FORMULARIO -->
+  <h2>📘 Consulta pública de Sustancias Químicas</h2>
+  <p style="text-align:center;color:#555">
+    Acceso informativo para todos los trabajadores<br>
+    Uso público – No editable
+  </p>
+
   <div class="box">
-    <h2>➕ Registrar Producto Químico</h2>
-
-    <label>Nombre del producto</label>
-    <input id="nombre" placeholder="Ej. Ácido clorhídrico"/>
-
-    <label>Proveedor</label>
-    <input id="proveedor" placeholder="Ej. Química Perú SAC"/>
-
-    <label>URL de la FDS (PDF)</label>
-    <input id="url" placeholder="Pega aquí la URL del PDF de la Gota"/>
-
-    <button onclick="agregar()">Guardar producto</button>
-  </div>
-
-  <!-- LISTADO -->
-  <div class="box">
-    <h2>📦 Productos registrados</h2>
+    <h3>📦 Productos registrados</h3>
     <div id="lista"></div>
   </div>
 
 </main>
 
 <script>
-
-  <script>
   const lista = document.getElementById("lista");
 
-  // Cargar productos DESDE la API (Redis)
   async function cargar() {
     lista.innerHTML = "";
     const res = await fetch("/api/products");
@@ -126,48 +106,23 @@
       div.innerHTML = `
         <strong>${p.nombre}</strong><br>
         Proveedor: ${p.proveedor}<br>
-        <a href="${p.url}"DS</a>
-        <div class="qr">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url </div>
+        <a href="${p.url}"">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&odeURIComponent(p.url)}
+        </div>
       `;
+
       lista.appendChild(div);
     });
   }
 
-  // Guardar producto EN la API (Redis)
-  async function agregar() {
-    const nombre = document.getElementById("nombre").value;
-    const proveedor = document.getElementById("proveedor").value;
-    const url = document.getElementById("url").value;
-
-    if (!nombre || !proveedor || !url) {
-      alert("Completa todos los campos");
-      return;
-    }
-
-    const res = await fetch("/api/products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, proveedor, url })
-    });
-
-    if (!res.ok) {
-      alert("Error al guardar el producto");
-      return;
-    }
-
-    document.getElementById("nombre").value = "";
-    document.getElementById("proveedor").value = "";
-    document.getElementById("url").value = "";
-
-    cargar(); // vuelve a leer desde Redis
-  }
-
   cargar();
 </script>
-``
+
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/service-worker.js");
   }
 </script>
+
+</body>
+</html>
