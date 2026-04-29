@@ -8,51 +8,64 @@
 </head>
 
 <body>
-  <h1>🔒 Administración FDS</h1>
-  <p>Registro y mantenimiento de productos químicos</p>
 
-  <div>
-    <label>Nombre del producto</label>
-    <input id="nombre" placeholder="Ej. Ácido clorhídrico"/>
+<!-- 🔒 PROTECCIÓN DEL ADMIN -->
+<script>
+  const CLAVE_ADMIN = "ANGELA-HUALLANCA"; // 🔴 CAMBIA LA CLAVE SI QUIERES
 
-    <label>Proveedor</label>
-    <input id="proveedor" placeholder="Ej. Química Perú SAC"/>
+  const claveIngresada = prompt("🔒 Ingrese clave de administrador:");
 
-    <label>URL de la FDS (PDF)</label>
-    <input id="url" placeholder="Pega la URL del PDF del Blob"/>
+  if (claveIngresada !== CLAVE_ADMIN) {
+    alert("Acceso denegado");
+    window.location.href = "/";
+  }
+</script>
 
-    <button onclick="agregar()">Guardar producto</button>
-  </div>
+<h1>🔒 Administración FDS</h1>
+<p>Registro y mantenimiento de productos químicos</p>
 
-  <script>
-    async function agregar() {
-      const nombre = document.getElementById("nombre").value;
-      const proveedor = document.getElementById("proveedor").value;
-      const url = document.getElementById("url").value;
+<div>
+  <label>Nombre del producto</label>
+  <input id="nombre" placeholder="Ej. Ácido clorhídrico"/>
 
-      if (!nombre || !proveedor || !url) {
-        alert("Completa todos los campos");
-        return;
-      }
+  <label>Proveedor</label>
+  <input id="proveedor" placeholder="Ej. Química Perú SAC"/>
 
-      const res = await fetch("/api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, proveedor, url })
-      });
+  <label>URL de la FDS (PDF)</label>
+  <input id="url" placeholder="Pega la URL del PDF del Blob"/>
 
-      if (!res.ok) {
-        alert("Error al guardar producto");
-        return;
-      }
+  <button onclick="agregar()">Guardar producto</button>
+</div>
 
-      alert("Producto registrado correctamente ✅");
+<script>
+  async function agregar() {
+    const nombre = document.getElementById("nombre").value;
+    const proveedor = document.getElementById("proveedor").value;
+    const url = document.getElementById("url").value;
 
-      document.getElementById("nombre").value = "";
-      document.getElementById("proveedor").value = "";
-      document.getElementById("url").value = "";
+    if (!nombre || !proveedor || !url) {
+      alert("Completa todos los campos");
+      return;
     }
-  </script>
+
+    const res = await fetch("/api/products", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, proveedor, url })
+    });
+
+    if (!res.ok) {
+      alert("Error al guardar producto");
+      return;
+    }
+
+    alert("Producto registrado correctamente ✅");
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("proveedor").value = "";
+    document.getElementById("url").value = "";
+  }
+</script>
+
 </body>
 </html>
-``
