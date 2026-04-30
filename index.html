@@ -36,26 +36,51 @@
       text-align: center;
     }
 
+    .subtitulo {
+      text-align: center;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    /* DASHBOARD */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px 15px;
+      text-align: center;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      border: none;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      background: #e6f0fa;
+    }
+
+    .icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .text {
+      font-weight: bold;
+      color: #0f4c75;
+    }
+
+    /* LISTADO */
     .box {
       background: white;
       padding: 15px;
       border-radius: 6px;
       margin-bottom: 20px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 15px;
-      background: #0f4c75;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1b6ca8;
     }
 
     .product {
@@ -73,21 +98,57 @@
 
 <header>
   <h1>📄 Portal FDS</h1>
-  <p>Almacén y Logística – Consulta de Hojas de Seguridad</p>
+  <p>Consulta de Hojas de Seguridad – Uso en obra</p>
 </header>
 
 <main>
 
-  <h2>📘 Consulta pública de Sustancias Químicas</h2>
-  <p style="text-align:center;color:#555">
-    Acceso informativo para todos los trabajadores<br>
-    Uso público – No editable
+  <h2>📘 Consulta Pública FDS</h2>
+  <p class="subtitulo">
+    Acceso libre para todos los trabajadores<br>
+    Información de seguridad – No editable
   </p>
 
-  <div class="box">
-    <h3>📦 Productos registrados</h3>
-    <div id="lista"></div>
+  <!-- DASHBOARD CON CARDS -->
+  <div class="grid-cards">
+
+    <button class="card" onclick="document.getElementById('fds').scrollIntoView()">
+      <div class="icon">📄</div>
+      <div class="text">FDS / Sustancias</div>
+    </button>
+
+    <button class="card" onclick="alert('Buscador (siguiente paso)')">
+      <div class="icon">🔍</div>
+      <div class="text">Buscador</div>
+    </button>
+
+    <button class="card" onclick="alert('Riesgos GHS (siguiente paso)')">
+      <div class="icon">🧪</div>
+      <div class="text">Riesgos / GHS</div>
+    </button>
+
+    <button class="card" onclick="alert('EPP Obligatorio (siguiente paso)')">
+      <div class="icon">🦺</div>
+      <div class="text">EPP Obligatorio</div>
+    </button>
+
+    <button class="card" onclick="cargar()">
+      <div class="icon">🔄</div>
+      <div class="text">Sincronizar</div>
+    </button>
+
+    <button class="card" onclick="alert('Información SSOMA')">
+      <div class="icon">ℹ️</div>
+      <div class="text">Info SSOMA</div>
+    </button>
+
   </div>
+
+  <!-- LISTADO FDS -->
+  <section id="fds" class="box">
+    <h3>📦 Sustancias químicas registradas</h3>
+    <div id="lista"></div>
+  </section>
 
 </main>
 
@@ -105,9 +166,9 @@
 
       div.innerHTML = `
         <strong>${p.nombre}</strong><br>
-        Proveedor: ${p.proveedor}<br>
-        <a  <div class="qr">
-          <img src="https://api.qrserver.com/v1/create-qre=150x150&data=${encodeURIComponent(p.url)}
+        Proveedor: ${p.proveedor}<brS</a>
+        <div class="qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=ta=${encodeURIComponent(p.url)}
         </div>
       `;
 
