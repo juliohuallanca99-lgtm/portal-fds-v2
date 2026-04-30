@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Portal FDS</title>
+  <title>Portal FDS – Proyecto TSF3+</title>
 
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
@@ -21,7 +21,14 @@
       background: #0f4c75;
       color: white;
       padding: 15px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    header img {
+      height: 45px;
     }
 
     main {
@@ -128,16 +135,20 @@
 <body>
 
 <header>
-  <h1>📄 Portal FDS</h1>
-  <p>Consulta de Hojas de Seguridad – Uso en obra</p>
+  <!-- Si aún no tienes logo, elimina solo esta línea -->
+  <img src="/logo.png" alt="Logo Proyecto">
+  <div>
+    <h1 style="margin:0">Portal FDS</h1>
+    <p style="margin:0;font-size:14px">Proyecto TSF3+ – Seguridad y SSOMA</p>
+  </div>
 </header>
 
 <main>
 
-  <h2>📘 Consulta Pública FDS</h2>
+  <h2>📘 Consulta Pública de Hojas de Seguridad</h2>
   <p class="subtitulo">
-    Acceso libre para todos los trabajadores<br>
-    Información de seguridad – No editable
+    Sistema oficial de consulta FDS<br>
+    Uso obligatorio para personal operativo y SSOMA
   </p>
 
   <!-- DASHBOARD -->
@@ -158,7 +169,7 @@
       <div class="text">Riesgos / GHS</div>
     </button>
 
-    <button class="card" onclick="alert('EPP Obligatorio (siguiente paso)')">
+    <button class="card" onclick="alert('EPP obligatorio (siguiente paso)')">
       <div class="icon">🦺</div>
       <div class="text">EPP Obligatorio</div>
     </button>
@@ -197,41 +208,12 @@
     </p>
 
     <div class="ghs-grid">
-      <div class="ghs-item">
-        <span>💣</span>
-        <strong>Explosivo</strong>
-        <p>Riesgo de explosión.</p>
-      </div>
-
-      <div class="ghs-item">
-        <span>🔥</span>
-        <strong>Inflamable</strong>
-        <p>Puede encenderse fácilmente.</p>
-      </div>
-
-      <div class="ghs-item">
-        <span>☠️</span>
-        <strong>Tóxico</strong>
-        <p>Peligro grave para la salud.</p>
-      </div>
-
-      <div class="ghs-item">
-        <span>🧪</span>
-        <strong>Corrosivo</strong>
-        <p>Daños en piel y ojos.</p>
-      </div>
-
-      <div class="ghs-item">
-        <span>⚠️</span>
-        <strong>Peligro salud</strong>
-        <p>Irritaciones o lesiones.</p>
-      </div>
-
-      <div class="ghs-item">
-        <span>🌱</span>
-        <strong>Peligro ambiental</strong>
-        <p>Daño a ecosistemas acuáticos.</p>
-      </div>
+      <div class="ghs-item"><span>💣</span><strong>Explosivo</strong><p>Riesgo de explosión.</p></div>
+      <div class="ghs-item"><span>🔥</span><strong>Inflamable</strong><p>Puede encenderse.</p></div>
+      <div class="ghs-item"><span>☠️</span><strong>Tóxico</strong><p>Peligro grave.</p></div>
+      <div class="ghs-item"><span>🧪</span><strong>Corrosivo</strong><p>Daños en piel y ojos.</p></div>
+      <div class="ghs-item"><span>⚠️</span><strong>Peligro salud</strong><p>Irritación/lesión.</p></div>
+      <div class="ghs-item"><span>🌱</span><strong>Peligro ambiental</strong><p>Daño ecológico.</p></div>
     </div>
   </section>
 
@@ -243,7 +225,6 @@
   let productos = [];
 
   async function cargar() {
-    lista.innerHTML = "";
     const res = await fetch("/api/products");
     productos = await res.json();
     mostrar(productos);
@@ -257,9 +238,7 @@
       div.innerHTML = `
         <strong>${p.nombre}</strong><br>
         Proveedor: ${p.proveedor}<br>
-        <a href="${pss="qr">
-          <img src="https://api.qrserver.com/v1/create-qr-codex150&data=${encodeURIComponent(p.url)}
-        </div>
+        <a href="${p.url}" target="_blank/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p     </div>
       `;
       lista.appendChild(div);
     });
@@ -267,11 +246,12 @@
 
   function filtrar() {
     const texto = buscador.value.toLowerCase();
-    const filtrados = productos.filter(p =>
-      p.nombre.toLowerCase().includes(texto) ||
-      p.proveedor.toLowerCase().includes(texto)
+    mostrar(
+      productos.filter(p =>
+        p.nombre.toLowerCase().includes(texto) ||
+        p.proveedor.toLowerCase().includes(texto)
+      )
     );
-    mostrar(filtrados);
   }
 
   cargar();
@@ -285,4 +265,3 @@
 
 </body>
 </html>
-``
