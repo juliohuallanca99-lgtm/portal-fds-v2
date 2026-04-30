@@ -91,6 +91,12 @@
     .qr {
       margin-top: 10px;
     }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 
@@ -109,7 +115,7 @@
     Información de seguridad – No editable
   </p>
 
-  <!-- DASHBOARD CON CARDS -->
+  <!-- DASHBOARD -->
   <div class="grid-cards">
 
     <button class="card" onclick="document.getElementById('fds').scrollIntoView()">
@@ -117,12 +123,12 @@
       <div class="text">FDS / Sustancias</div>
     </button>
 
-    <button class="card" onclick="alert('Buscador (siguiente paso)')">
+    <button class="card" onclick="document.getElementById('buscador').focus()">
       <div class="icon">🔍</div>
       <div class="text">Buscador</div>
     </button>
 
-    <button class="card" onclick="alert('Riesgos GHS (siguiente paso)')">
+    <button class="card" onclick="alert('Riesgos / GHS (siguiente paso)')">
       <div class="icon">🧪</div>
       <div class="text">Riesgos / GHS</div>
     </button>
@@ -147,6 +153,14 @@
   <!-- LISTADO FDS -->
   <section id="fds" class="box">
     <h3>📦 Sustancias químicas registradas</h3>
+
+    <input
+      type="text"
+      id="buscador"
+      placeholder="🔍 Buscar por nombre o proveedor..."
+      oninput="filtrar()"
+    />
+
     <div id="lista"></div>
   </section>
 
@@ -154,11 +168,18 @@
 
 <script>
   const lista = document.getElementById("lista");
+  const buscador = document.getElementById("buscador");
+  let productos = [];
 
   async function cargar() {
     lista.innerHTML = "";
     const res = await fetch("/api/products");
-    const data = await res.json();
+    productos = await res.json();
+    mostrar(productos);
+  }
+
+  function mostrar(data) {
+    lista.innerHTML = "";
 
     data.forEach(p => {
       const div = document.createElement("div");
@@ -166,14 +187,24 @@
 
       div.innerHTML = `
         <strong>${p.nombre}</strong><br>
-        Proveedor: ${p.proveedor}<brS</a>
-        <div class="qr">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=ta=${encodeURIComponent(p.url)}
-        </div>
+        Proveedor: ${p.proveedor}<br>
+        <a href="${pss="qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url)}"div>
       `;
 
       lista.appendChild(div);
     });
+  }
+
+  function filtrar() {
+    const texto = buscador.value.toLowerCase();
+
+    const filtrados = productos.filter(p =>
+      p.nombre.toLowerCase().includes(texto) ||
+      p.proveedor.toLowerCase().includes(texto)
+    );
+
+    mostrar(filtrados);
   }
 
   cargar();
