@@ -1,14 +1,13 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
+`${p.url}
+
+
+
+  <meta charset="UTF-8">
   <title>Portal FDS – Proyecto TSF3+</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0f2a44">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+  
+/manifest.json
+<meta name="theme-color" content="#0f2a44">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -48,7 +47,6 @@
       margin-bottom: 25px;
     }
 
-    /* DASHBOARD */
     .grid-cards {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -80,7 +78,6 @@
       color: #0f4c75;
     }
 
-    /* CONTENEDORES */
     .box {
       background: white;
       padding: 15px;
@@ -104,7 +101,6 @@
       margin-bottom: 15px;
     }
 
-    /* GHS */
     .ghs-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -130,95 +126,54 @@
       color: #0f4c75;
     }
   </style>
-</head>
 
-<body>
 
 <header>
-  <!-- Si aún no tienes logo, elimina solo esta línea -->
-  <img src="/logo.png" alt="Logo Proyecto">
+  /logo.png
   <div>
     <h1 style="margin:0">Portal FDS</h1>
     <p style="margin:0;font-size:14px">Proyecto TSF3+ – Seguridad y SSOMA</p>
   </div>
 </header>
-
 <main>
-
   <h2>📘 Consulta Pública de Hojas de Seguridad</h2>
   <p class="subtitulo">
     Sistema oficial de consulta FDS<br>
     Uso obligatorio para personal operativo y SSOMA
   </p>
-
-  <!-- DASHBOARD -->
   <div class="grid-cards">
-
-    <button class="card" onclick="document.getElementById('fds').scrollIntoView()">
+    <button class="card" onclick="document.getElementById(&#x27;fds&#x27;).scrollIntoView()">
       <div class="icon">📄</div>
       <div class="text">FDS / Sustancias</div>
     </button>
-
-    <button class="card" onclick="document.getElementById('buscador').focus()">
+    <button class="card" onclick="document.getElementById(&#x27;buscador&#x27;).focus()">
       <div class="icon">🔍</div>
       <div class="text">Buscador</div>
     </button>
-
-    <button class="card" onclick="document.getElementById('ghs').scrollIntoView()">
+    <button class="card" onclick="document.getElementById(&#x27;ghs&#x27;).scrollIntoView()">
       <div class="icon">🧪</div>
       <div class="text">Riesgos / GHS</div>
     </button>
-
-    <button class="card" onclick="alert('EPP obligatorio (siguiente paso)')">
-      <div class="icon">🦺</div>
-      <div class="text">EPP Obligatorio</div>
-    </button>
-
     <button class="card" onclick="cargar()">
       <div class="icon">🔄</div>
       <div class="text">Sincronizar</div>
     </button>
-
-    <button class="card" onclick="alert('Información SSOMA')">
-      <div class="icon">ℹ️</div>
-      <div class="text">Info SSOMA</div>
-    </button>
-
   </div>
-
-  <!-- LISTADO FDS -->
   <section id="fds" class="box">
     <h3>📦 Sustancias químicas registradas</h3>
-
-    <input
-      type="text"
-      id="buscador"
-      placeholder="🔍 Buscar por nombre o proveedor..."
-      oninput="filtrar()"
-    />
-
+    <input id="buscador" placeholder="Buscar por nombre o proveedor..." oninput="filtrar()">
     <div id="lista"></div>
   </section>
-
-  <!-- RIESGOS GHS -->
   <section id="ghs" class="box">
     <h3>🧪 Riesgos Químicos – Sistema GHS</h3>
-    <p style="color:#555">
-      Los pictogramas GHS identifican los principales peligros de las sustancias químicas.
-    </p>
-
     <div class="ghs-grid">
-      <div class="ghs-item"><span>💣</span><strong>Explosivo</strong><p>Riesgo de explosión.</p></div>
       <div class="ghs-item"><span>🔥</span><strong>Inflamable</strong><p>Puede encenderse.</p></div>
       <div class="ghs-item"><span>☠️</span><strong>Tóxico</strong><p>Peligro grave.</p></div>
       <div class="ghs-item"><span>🧪</span><strong>Corrosivo</strong><p>Daños en piel y ojos.</p></div>
-      <div class="ghs-item"><span>⚠️</span><strong>Peligro salud</strong><p>Irritación/lesión.</p></div>
-      <div class="ghs-item"><span>🌱</span><strong>Peligro ambiental</strong><p>Daño ecológico.</p></div>
+      <div class="ghs-item"><span>🌱</span><strong>Ambiental</strong><p>Daño ecológico.</p></div>
     </div>
   </section>
-
 </main>
-
 <script>
   const lista = document.getElementById("lista");
   const buscador = document.getElementById("buscador");
@@ -238,30 +193,30 @@
       div.innerHTML = `
         <strong>${p.nombre}</strong><br>
         Proveedor: ${p.proveedor}<br>
-        <a href="${p.url}" target="_blank/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p     </div>
+        ${p.url}📄 Abrir FDS</a>
+        <div class="qr">
+          https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url)}
+        </div>
       `;
       lista.appendChild(div);
     });
   }
 
   function filtrar() {
-    const texto = buscador.value.toLowerCase();
-    mostrar(
-      productos.filter(p =>
-        p.nombre.toLowerCase().includes(texto) ||
-        p.proveedor.toLowerCase().includes(texto)
-      )
-    );
+    const t = buscador.value.toLowerCase();
+    mostrar(productos.filter(p =>
+      p.nombre.toLowerCase().includes(t) ||
+      p.proveedor.toLowerCase().includes(t)
+    ));
   }
 
   cargar();
 </script>
-
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/service-worker.js");
   }
 </script>
 
-</body>
-</html>
+
+```
