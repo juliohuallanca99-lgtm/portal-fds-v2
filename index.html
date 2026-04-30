@@ -106,8 +106,8 @@
       div.innerHTML = `
         <strong>${p.nombre}</strong><br>
         Proveedor: ${p.proveedor}<br>
-        <a href="${p.url}"">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&odeURIComponent(p.url)}
+        <a  <div class="qr">
+          <img src="https://api.qrserver.com/v1/create-qre=150x150&data=${encodeURIComponent(p.url)}
         </div>
       `;
 
