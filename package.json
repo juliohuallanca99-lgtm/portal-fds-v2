@@ -1,10 +1,8 @@
 {
   "name": "portal-fds-v2",
-  "private": true,
-  "type": "module",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "build": "echo \"build ok\""
+    "dev": "vercel dev"
   },
   "dependencies": {
     "@vercel/kv": "^1.0.0"
