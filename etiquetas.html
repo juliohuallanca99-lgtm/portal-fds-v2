@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Etiquetas QR – Portal FDS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .acciones {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .acciones button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* HOJA */
+    .hoja {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    /* ETIQUETA */
+    .etiqueta {
+      border: 2px solid #000;
+      padding: 10px;
+      min-height: 180px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .qr img {
+      width: 120px;
+      height: 120px;
+    }
+
+    .info {
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .info strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .aviso {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #333;
+    }
+
+    @media print {
+      .acciones {
+        display: none;
+      }
+      body {
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>📄 Etiquetas QR – Hojas de Seguridad (FDS)</h1>
+
+<div class="acciones">
+  <button onclick="window.print()">🖨️ Imprimir etiquetas</button>
+</div>
+
+<div class="hoja" id="contenedor"></div>
+
+<script>
+  const contenedor = document.getElementById("contenedor");
+
+  async function cargar() {
+    const res = await fetch("/api/products");
+    const productos = await res.json();
+
+    productos.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "etiqueta";
+
+      div.innerHTML = `
+        <div class="qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url </div>
+
+        <div class="info">
+          <strong>${p.nombre}</strong>
+          Proveedor: ${p.proveedor}
+          <div class="aviso">
+            Escanee el código QR para consultar la FDS.<br>
+            Uso obligatorio – SSOMA
+          </div>
+        </div>
+      `;
+
+      contenedor.appendChild(div);
+    });
+  }
+
+  cargar();
+</script>
+
+</body>
+</html>
