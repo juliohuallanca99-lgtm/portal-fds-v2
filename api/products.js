@@ -2,17 +2,24 @@ import { kv } from "@vercel/kv";
 
 const KEY = "products";
 
-export default async function handler(req, res) {
-  if (req.method === "GET") {
+export default async function handler(request) {
+  if (request.method === "GET") {
     const products = (await kv.get(KEY)) || [];
-    return res.status(200).json(products);
+    return new Response(JSON.stringify(products), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
   }
 
-  if (req.method === "POST") {
-    const { nombre, proveedor, url } = req.body;
+  if (request.method === "POST") {
+    const body = await request.json();
+    const { nombre, proveedor, url } = body;
 
     if (!nombre || !proveedor || !url) {
-      return res.status(400).json({ error: "Datos incompletos" });
+      return new Response(
+        JSON.stringify({ error: "Datos incompletos" }),
+        { status: 400 }
+      );
     }
 
     const products = (await kv.get(KEY)) || [];
@@ -20,8 +27,8 @@ export default async function handler(req, res) {
 
     await kv.set(KEY, products);
 
-    return res.status(200).json({ ok: true });
+    return new Response(JSON.stringify({ ok: true }), { status: 200 });
   }
 
-  return res.status(405).json({ error: "Método no permitido" });
+  return new Response("Method not allowed", { status: 405 });
 }
