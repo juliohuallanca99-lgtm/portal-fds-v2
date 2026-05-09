@@ -101,6 +101,7 @@
       width: 100%;
       padding: 10px;
       margin-bottom: 15px;
+      box-sizing: border-box;
     }
   </style>
 </head>
@@ -169,17 +170,20 @@
 
   function mostrar(data) {
     lista.innerHTML = "";
-
+    if (data.length === 0) {
+      lista.innerHTML = "<p>No se encontraron productos.</p>";
+      return;
+    }
     data.forEach(p => {
       const div = document.createElement("div");
       div.className = "product";
-
       div.innerHTML = `
         <strong>${p.nombre}</strong><br>
         Proveedor: ${p.proveedor}<br>
-        <a href="${p.url}" target="_/api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url)}"
-            alt="QR FDS"
-(div);
+        <a href="${p.url}" target="_blank">📄 Ver FDS</a><br>
+        <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url)}" alt="QR FDS">
+      `;
+      lista.appendChild(div);
     });
   }
 
