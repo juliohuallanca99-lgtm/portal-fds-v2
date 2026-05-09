@@ -3,106 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Portal FDS – Proyecto TSF3+</title>
-
-  <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0f2a44">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 0;
-    }
+    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 0; }
+    header { background: #0f4c75; color: white; padding: 15px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+    header img { height: 45px; display: block; }
+    main { padding: 20px; max-width: 900px; margin: auto; }
+    h2 { color: #0f4c75; text-align: center; }
+    .subtitulo { text-align: center; color: #555; margin-bottom: 25px; }
+    .grid-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+    .card { background: white; border-radius: 12px; padding: 25px 15px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.1); border: none; cursor: pointer; }
+    .card:hover { background: #e6f0fa; }
+    .icon { font-size: 36px; margin-bottom: 10px; }
+    .text { font-weight: bold; color: #0f4c75; }
+    .box { background: white; padding: 15px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .product { border-bottom: 1px solid #ddd; padding: 10px 0; }
+    .qr { margin-top: 10px; }
+    input { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
 
-    header {
-      background: #0f4c75;
-      color: white;
-      padding: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    header img {
-      height: 45px;
-      display: block;
-    }
-
-    main {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    h2 {
-      color: #0f4c75;
-      text-align: center;
-    }
-
-    .subtitulo {
-      text-align: center;
-      color: #555;
-      margin-bottom: 25px;
-    }
-
-    .grid-cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 25px 15px;
-      text-align: center;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-      border: none;
-      cursor: pointer;
-    }
-
-    .card:hover {
-      background: #e6f0fa;
-    }
-
-    .icon {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .text {
-      font-weight: bold;
-      color: #0f4c75;
-    }
-
-    .box {
-      background: white;
-      padding: 15px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .product {
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
-    }
-
-    .qr {
-      margin-top: 10px;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-    }
+    /* Escáner QR */
+    #scanner-box { display: none; background: white; padding: 15px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    #reader { width: 100%; max-width: 400px; margin: auto; }
+    #scanner-resultado { margin-top: 15px; padding: 10px; background: #e6f0fa; border-radius: 6px; display: none; text-align: center; }
+    .btn-scanner { background: #0f4c75; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 10px; }
+    .btn-scanner:hover { background: #1a6fa8; }
+    .btn-cerrar { background: #cc0000; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-top: 10px; }
   </style>
 </head>
 
@@ -112,9 +41,7 @@
   <img src="/logo.png" alt="Logo Proyecto">
   <div>
     <h1 style="margin:0">Portal FDS</h1>
-    <p style="margin:0;font-size:14px">
-      Proyecto TSF3+ – Seguridad y SSOMA
-    </p>
+    <p style="margin:0;font-size:14px">Proyecto TSF3+ – Seguridad y SSOMA</p>
   </div>
 </header>
 
@@ -141,17 +68,30 @@
       <div class="icon">🔄</div>
       <div class="text">Sincronizar</div>
     </button>
+
+    <button class="card" onclick="abrirScanner()">
+      <div class="icon">📷</div>
+      <div class="text">Escanear QR</div>
+    </button>
   </div>
+
+  <!-- Sección Escáner QR -->
+  <section id="scanner-box" class="box">
+    <h3>📷 Escanear Código QR</h3>
+    <p style="color:#555;font-size:14px">Apunta la cámara al código QR del producto químico para acceder a su FDS.</p>
+    <div id="reader"></div>
+    <div id="scanner-resultado">
+      <p id="resultado-texto"></p>
+      <a id="resultado-link" href="#" target="_blank" style="display:none">
+        <button class="btn-scanner">📄 Ver Hoja de Seguridad</button>
+      </a>
+    </div>
+    <button class="btn-cerrar" onclick="cerrarScanner()">✖ Cerrar escáner</button>
+  </section>
 
   <section id="fds" class="box">
     <h3>📦 Sustancias químicas registradas</h3>
-
-    <input
-      id="buscador"
-      placeholder="Buscar por nombre o proveedor..."
-      oninput="filtrar()"
-    >
-
+    <input id="buscador" placeholder="Buscar por nombre o proveedor..." oninput="filtrar()">
     <div id="lista"></div>
   </section>
 
@@ -161,6 +101,7 @@
   const lista = document.getElementById("lista");
   const buscador = document.getElementById("buscador");
   let productos = [];
+  let html5QrCode = null;
 
   async function cargar() {
     const res = await fetch("/api/products");
@@ -189,12 +130,48 @@
 
   function filtrar() {
     const t = buscador.value.toLowerCase();
-    mostrar(
-      productos.filter(p =>
-        p.nombre.toLowerCase().includes(t) ||
-        p.proveedor.toLowerCase().includes(t)
-      )
-    );
+    mostrar(productos.filter(p =>
+      p.nombre.toLowerCase().includes(t) ||
+      p.proveedor.toLowerCase().includes(t)
+    ));
+  }
+
+  function abrirScanner() {
+    const box = document.getElementById("scanner-box");
+    box.style.display = "block";
+    box.scrollIntoView();
+    document.getElementById("scanner-resultado").style.display = "none";
+
+    html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: { width: 250, height: 250 } },
+      (decodedText) => {
+        // QR escaneado exitosamente
+        html5QrCode.stop();
+        const resultado = document.getElementById("scanner-resultado");
+        const texto = document.getElementById("resultado-texto");
+        const link = document.getElementById("resultado-link");
+        resultado.style.display = "block";
+        texto.textContent = "✅ QR detectado: " + decodedText;
+        if (decodedText.startsWith("http")) {
+          link.href = decodedText;
+          link.style.display = "block";
+        }
+      },
+      (error) => { /* ignorar errores de escaneo */ }
+    ).catch(err => {
+      alert("No se pudo acceder a la cámara. Verifica los permisos.");
+    });
+  }
+
+  function cerrarScanner() {
+    if (html5QrCode) {
+      html5QrCode.stop().catch(() => {});
+      html5QrCode = null;
+    }
+    document.getElementById("scanner-box").style.display = "none";
+    document.getElementById("scanner-resultado").style.display = "none";
   }
 
   cargar();
