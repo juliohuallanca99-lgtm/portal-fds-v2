@@ -7,101 +7,567 @@
   <meta name="theme-color" content="#0f2a44">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 0; }
-    header { background: #0f4c75; color: white; padding: 15px; display: flex; align-items: center; justify-content: center; gap: 15px; }
-    header img { height: 45px; display: block; }
-    main { padding: 20px; max-width: 900px; margin: auto; }
-    h2 { color: #0f4c75; text-align: center; }
-    .subtitulo { text-align: center; color: #555; margin-bottom: 25px; }
-    .grid-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
-    .card { background: white; border-radius: 12px; padding: 25px 15px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.1); border: none; cursor: pointer; }
-    .card:hover { background: #e6f0fa; }
-    .icon { font-size: 36px; margin-bottom: 10px; }
-    .text { font-weight: bold; color: #0f4c75; }
-    .box { background: white; padding: 15px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    .product { border-bottom: 1px solid #ddd; padding: 10px 0; }
-    .qr { margin-top: 10px; }
-    input { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
+    :root {
+      --azul: #0a2540;
+      --azul-medio: #1a4a7a;
+      --turquesa: #00c9a7;
+      --turquesa-oscuro: #00a389;
+      --blanco: #ffffff;
+      --gris-claro: #f0f4f8;
+      --overlay: rgba(10, 37, 64, 0.82);
+    }
 
-    /* Escáner QR */
-    #scanner-box { display: none; background: white; padding: 15px; border-radius: 6px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    #reader { width: 100%; max-width: 400px; margin: auto; }
-    #scanner-resultado { margin-top: 15px; padding: 10px; background: #e6f0fa; border-radius: 6px; display: none; text-align: center; }
-    .btn-scanner { background: #0f4c75; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 10px; }
-    .btn-scanner:hover { background: #1a6fa8; }
-    .btn-cerrar { background: #cc0000; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--azul);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== HERO CON COLLAGE ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .collage {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 3px;
+      z-index: 0;
+    }
+
+    .collage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%) brightness(0.7);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--overlay);
+      z-index: 1;
+    }
+
+    /* ===== LOGO ESQUINA ===== */
+    .logo-corner {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      z-index: 10;
+      color: white;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-corner img {
+      height: 40px;
+      filter: brightness(10);
+    }
+
+    /* ===== TARJETA CENTRAL ===== */
+    .card-central {
+      position: relative;
+      z-index: 10;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 45px 40px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+      animation: fadeUp 0.8s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-central h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .card-central p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .btn-turquesa {
+      background: var(--turquesa);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-turquesa:hover {
+      background: var(--turquesa-oscuro);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,201,167,0.4);
+    }
+
+    /* ===== PORTAL PRINCIPAL ===== */
+    .portal {
+      display: none;
+      min-height: 100vh;
+      background: var(--gris-claro);
+    }
+
+    .portal-header {
+      background: var(--azul);
+      color: white;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-brand img {
+      height: 38px;
+      filter: brightness(10);
+    }
+
+    .header-brand div h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: white;
+    }
+
+    .header-brand div p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin: 0;
+    }
+
+    .header-badge {
+      background: var(--turquesa);
+      color: white;
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .portal-main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    /* ===== BANNER ===== */
+    .banner {
+      background: linear-gradient(135deg, var(--azul) 0%, var(--azul-medio) 100%);
+      border-radius: 16px;
+      padding: 30px;
+      color: white;
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner::after {
+      content: "🛢️";
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 60px;
+      opacity: 0.15;
+    }
+
+    .banner h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .banner p {
+      font-size: 13px;
+      opacity: 0.75;
+    }
+
+    /* ===== GRID ACCIONES ===== */
+    .grid-acciones {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .accion-card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px 15px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+    }
+
+    .accion-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border-bottom-color: var(--turquesa);
+    }
+
+    .accion-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .accion-text {
+      font-weight: 600;
+      color: var(--azul);
+      font-size: 14px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== SECCIÓN PRODUCTOS ===== */
+    .seccion {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    .seccion-titulo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--azul);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gris-claro);
+    }
+
+    .buscador-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .buscador-wrap input {
+      width: 100%;
+      padding: 12px 15px 12px 42px;
+      border: 2px solid #e0e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: border 0.3s;
+      outline: none;
+    }
+
+    .buscador-wrap input:focus {
+      border-color: var(--turquesa);
+    }
+
+    .buscador-wrap::before {
+      content: "🔍";
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+    }
+
+    /* ===== PRODUCTO CARD ===== */
+    .producto-card {
+      border: 1px solid #e8f0f8;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: all 0.3s;
+      background: #fafcff;
+    }
+
+    .producto-card:hover {
+      border-color: var(--turquesa);
+      box-shadow: 0 4px 15px rgba(0,201,167,0.1);
+    }
+
+    .producto-qr img {
+      width: 70px;
+      height: 70px;
+      border-radius: 8px;
+    }
+
+    .producto-info {
+      flex: 1;
+    }
+
+    .producto-nombre {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--azul);
+      margin-bottom: 3px;
+    }
+
+    .producto-proveedor {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .btn-ver-fds {
+      background: var(--turquesa);
+      color: white;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s;
+    }
+
+    .btn-ver-fds:hover {
+      background: var(--turquesa-oscuro);
+      transform: translateY(-1px);
+    }
+
+    /* ===== SCANNER ===== */
+    .scanner-section {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 380px;
+      margin: 15px auto;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .scanner-resultado {
+      display: none;
+      background: linear-gradient(135deg, #e8fff8, #d0f5ee);
+      border: 1px solid var(--turquesa);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .btn-cerrar {
+      background: #ff4757;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #aaa;
+    }
+
+    @media (max-width: 480px) {
+      .card-central { padding: 35px 25px; }
+      .card-central h1 { font-size: 26px; }
+      .collage { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
+    }
   </style>
 </head>
-
 <body>
 
-<header>
-  <img src="/logo.png" alt="Logo Proyecto">
-  <div>
-    <h1 style="margin:0">Portal FDS</h1>
-    <p style="margin:0;font-size:14px">Proyecto TSF3+ – Seguridad y SSOMA</p>
+<!-- ===== HERO / PORTADA ===== -->
+<div class="hero" id="hero">
+  <div class="collage">
+    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80" alt="">
+    <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&q=80" alt="">
   </div>
-</header>
+  <div class="overlay"></div>
 
-<main>
-
-  <h2>📘 Consulta Pública de Hojas de Seguridad</h2>
-  <p class="subtitulo">
-    Sistema oficial de consulta FDS<br>
-    Uso obligatorio para personal operativo y SSOMA
-  </p>
-
-  <div class="grid-cards">
-    <button class="card" onclick="document.getElementById('fds').scrollIntoView()">
-      <div class="icon">📄</div>
-      <div class="text">FDS / Sustancias</div>
-    </button>
-
-    <button class="card" onclick="document.getElementById('buscador').focus()">
-      <div class="icon">🔍</div>
-      <div class="text">Buscador</div>
-    </button>
-
-    <button class="card" onclick="cargar()">
-      <div class="icon">🔄</div>
-      <div class="text">Sincronizar</div>
-    </button>
-
-    <button class="card" onclick="abrirScanner()">
-      <div class="icon">📷</div>
-      <div class="text">Escanear QR</div>
-    </button>
+  <div class="logo-corner">
+    <img src="/logo.png" alt="Logo"> TSF3+
   </div>
 
-  <!-- Sección Escáner QR -->
-  <section id="scanner-box" class="box">
-    <h3>📷 Escanear Código QR</h3>
-    <p style="color:#555;font-size:14px">Apunta la cámara al código QR del producto químico para acceder a su FDS.</p>
-    <div id="reader"></div>
-    <div id="scanner-resultado">
-      <p id="resultado-texto"></p>
-      <a id="resultado-link" href="#" target="_blank" style="display:none">
-        <button class="btn-scanner">📄 Ver Hoja de Seguridad</button>
-      </a>
+  <div class="card-central">
+    <h1>Portal FDS<br>Seguridad y SSOMA</h1>
+    <p>Sistema oficial de consulta de<br>Hojas de Datos de Seguridad<br>Proyecto TSF3+ – Marcona, Ica</p>
+    <button class="btn-turquesa" onclick="entrarPortal()">
+      🛡️ Consultar Hojas de Seguridad
+    </button>
+    <button class="btn-turquesa" style="background:rgba(255,255,255,0.15); margin-top:5px;" onclick="entrarPortal(); setTimeout(abrirScanner, 500)">
+      📷 Escanear Código QR
+    </button>
+  </div>
+</div>
+
+<!-- ===== PORTAL PRINCIPAL ===== -->
+<div class="portal" id="portal">
+  <header class="portal-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <img src="/logo.png" alt="Logo">
+        <div>
+          <h2>Portal FDS</h2>
+          <p>Proyecto TSF3+ – Seguridad y SSOMA</p>
+        </div>
+      </div>
+      <span class="header-badge">🟢 En línea</span>
     </div>
-    <button class="btn-cerrar" onclick="cerrarScanner()">✖ Cerrar escáner</button>
-  </section>
+  </header>
 
-  <section id="fds" class="box">
-    <h3>📦 Sustancias químicas registradas</h3>
-    <input id="buscador" placeholder="Buscar por nombre o proveedor..." oninput="filtrar()">
-    <div id="lista"></div>
-  </section>
+  <div class="portal-main">
 
-</main>
+    <div class="banner">
+      <h2>📘 Consulta Pública de Hojas de Seguridad</h2>
+      <p>Sistema oficial de consulta FDS · Uso obligatorio para personal operativo y SSOMA</p>
+    </div>
+
+    <div class="grid-acciones">
+      <button class="accion-card" onclick="document.getElementById('productos-sec').scrollIntoView({behavior:'smooth'})">
+        <div class="accion-icon">📄</div>
+        <div class="accion-text">FDS / Sustancias</div>
+      </button>
+      <button class="accion-card" onclick="document.getElementById('busq').focus()">
+        <div class="accion-icon">🔍</div>
+        <div class="accion-text">Buscador</div>
+      </button>
+      <button class="accion-card" onclick="cargar()">
+        <div class="accion-icon">🔄</div>
+        <div class="accion-text">Sincronizar</div>
+      </button>
+      <button class="accion-card" onclick="abrirScanner()">
+        <div class="accion-icon">📷</div>
+        <div class="accion-text">Escanear QR</div>
+      </button>
+    </div>
+
+    <!-- Scanner -->
+    <div class="scanner-section" id="scanner-sec">
+      <div class="seccion-titulo">📷 Escanear Código QR</div>
+      <p style="color:#666;font-size:13px">Apunta la cámara al código QR del producto para ver su FDS.</p>
+      <div id="reader"></div>
+      <div class="scanner-resultado" id="scan-result">
+        <p id="scan-texto" style="font-weight:600;color:#0a2540;margin-bottom:10px"></p>
+        <a id="scan-link" href="#" target="_blank">
+          <button class="btn-turquesa" style="width:auto">📄 Ver Hoja de Seguridad</button>
+        </a>
+      </div>
+      <button class="btn-cerrar" onclick="cerrarScanner()">✖ Cerrar escáner</button>
+    </div>
+
+    <!-- Productos -->
+    <div class="seccion" id="productos-sec">
+      <div class="seccion-titulo">📦 Sustancias químicas registradas</div>
+      <div class="buscador-wrap">
+        <input id="busq" placeholder="Buscar por nombre o proveedor..." oninput="filtrar()">
+      </div>
+      <div id="lista"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:10px">
+      <button class="btn-turquesa" style="width:auto;background:rgba(10,37,64,0.1);color:#0a2540;" onclick="document.getElementById('hero').style.display='flex'; document.getElementById('portal').style.display='none'">
+        ← Volver al inicio
+      </button>
+    </div>
+
+  </div>
+</div>
 
 <script>
-  const lista = document.getElementById("lista");
-  const buscador = document.getElementById("buscador");
   let productos = [];
   let html5QrCode = null;
+
+  function entrarPortal() {
+    document.getElementById('hero').style.display = 'none';
+    document.getElementById('portal').style.display = 'block';
+    cargar();
+  }
 
   async function cargar() {
     const res = await fetch("/api/products");
@@ -110,26 +576,31 @@
   }
 
   function mostrar(data) {
+    const lista = document.getElementById("lista");
     lista.innerHTML = "";
     if (data.length === 0) {
-      lista.innerHTML = "<p>No se encontraron productos.</p>";
+      lista.innerHTML = '<div class="empty">⚗️ No se encontraron productos registrados.</div>';
       return;
     }
     data.forEach(p => {
       const div = document.createElement("div");
-      div.className = "product";
+      div.className = "producto-card";
       div.innerHTML = `
-        <strong>${p.nombre}</strong><br>
-        Proveedor: ${p.proveedor}<br>
-        <a href="${p.url}" target="_blank">📄 Ver FDS</a><br>
-        <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(p.url)}" alt="QR FDS">
+        <div class="producto-qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(p.url)}" alt="QR">
+        </div>
+        <div class="producto-info">
+          <div class="producto-nombre">${p.nombre}</div>
+          <div class="producto-proveedor">🏭 ${p.proveedor}</div>
+          <a href="${p.url}" target="_blank" class="btn-ver-fds">📄 Ver FDS</a>
+        </div>
       `;
       lista.appendChild(div);
     });
   }
 
   function filtrar() {
-    const t = buscador.value.toLowerCase();
+    const t = document.getElementById("busq").value.toLowerCase();
     mostrar(productos.filter(p =>
       p.nombre.toLowerCase().includes(t) ||
       p.proveedor.toLowerCase().includes(t)
@@ -137,44 +608,30 @@
   }
 
   function abrirScanner() {
-    const box = document.getElementById("scanner-box");
-    box.style.display = "block";
-    box.scrollIntoView();
-    document.getElementById("scanner-resultado").style.display = "none";
+    const sec = document.getElementById("scanner-sec");
+    sec.style.display = "block";
+    sec.scrollIntoView({behavior:'smooth'});
+    document.getElementById("scan-result").style.display = "none";
 
     html5QrCode = new Html5Qrcode("reader");
     html5QrCode.start(
       { facingMode: "environment" },
       { fps: 10, qrbox: { width: 250, height: 250 } },
-      (decodedText) => {
-        // QR escaneado exitosamente
+      (texto) => {
         html5QrCode.stop();
-        const resultado = document.getElementById("scanner-resultado");
-        const texto = document.getElementById("resultado-texto");
-        const link = document.getElementById("resultado-link");
-        resultado.style.display = "block";
-        texto.textContent = "✅ QR detectado: " + decodedText;
-        if (decodedText.startsWith("http")) {
-          link.href = decodedText;
-          link.style.display = "block";
-        }
+        const result = document.getElementById("scan-result");
+        document.getElementById("scan-texto").textContent = "✅ QR detectado correctamente";
+        document.getElementById("scan-link").href = texto;
+        result.style.display = "block";
       },
-      (error) => { /* ignorar errores de escaneo */ }
-    ).catch(err => {
-      alert("No se pudo acceder a la cámara. Verifica los permisos.");
-    });
+      () => {}
+    ).catch(() => alert("No se pudo acceder a la cámara. Verifica los permisos."));
   }
 
   function cerrarScanner() {
-    if (html5QrCode) {
-      html5QrCode.stop().catch(() => {});
-      html5QrCode = null;
-    }
-    document.getElementById("scanner-box").style.display = "none";
-    document.getElementById("scanner-resultado").style.display = "none";
+    if (html5QrCode) { html5QrCode.stop().catch(()=>{}); html5QrCode = null; }
+    document.getElementById("scanner-sec").style.display = "none";
   }
-
-  cargar();
 </script>
 
 <script>
