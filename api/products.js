@@ -51,27 +51,16 @@ export default async function handler(req, res) {
   }
 
   // DELETE — eliminar producto
-  if (req.method === "DELETE") {
-    const { id, usuario, nombre } = req.body;
-    if (!id) return res.status(400).json({ error: "ID requerido" });
-    const products = (await redis.get(KEY)) || [];
-    const filtered = products.filter(p => p.id !== id);
-    await redis.set(KEY, filtered);
-    await agregarHistorial(redis, { accion: "ELIMINÓ", producto: nombre || id, usuario: usuario || "Admin" });
-    return res.status(200).json({ ok: true });
-  }
-
-  return res.status(405).end("Method not allowed");
-}
-
-async function agregarHistorial(redis, { accion, producto, usuario }) {
-  const history = (await redis.get(HISTORY_KEY)) || [];
-  history.unshift({
-    accion,
-    producto,
-    usuario,
-    fecha: new Date().toLocaleString("es-PE", { timeZone: "America/Lima" })
+if (req.method === "DELETE") {
+  const { id, usuario, nombre } = req.body;
+  if (!id) return res.status(400).json({ error: "ID requerido" });
+  const products = (await redis.get(KEY)) || [];
+  // Filtra por id O por nombre si no tiene id
+  const filtered = products.filter(p => {
+    if (p.id) return p.id !== id;
+    return p.nombre !== nombre;
   });
-  if (history.length > 100) history.pop();
-  await redis.set(HISTORY_KEY, history);
+  await redis.set(KEY, filtered);
+  await agregarHistorial(redis, { accion: "ELIMINÓ", producto: nombre || id, usuario: usuario || "Admin" });
+  return res.status(200).json({ ok: true });
 }
