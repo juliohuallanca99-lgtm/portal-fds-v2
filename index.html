@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Portal FDS – Proyecto Sostenimento - Marcobre+</title>
+  <title>Portal FDS – Proyecto Sostenimiento-Marcobre </title>
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0f2a44">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +18,10 @@
       --blanco: #ffffff;
       --gris-claro: #f0f4f8;
       --overlay: rgba(10, 37, 64, 0.82);
+      --rojo: #dc2626;
+      --rojo-oscuro: #991b1b;
+      --morado: #7c3aed;
+      --celeste: #0891b2;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,6 +33,7 @@
       overflow-x: hidden;
     }
 
+    /* ===== HERO ===== */
     .hero {
       position: relative;
       min-height: 100vh;
@@ -78,7 +83,33 @@
       gap: 8px;
     }
 
-    .logo-corner img { height: 50px; filter: brightness(10); }
+    .logo-corner img { height: 40px; filter: brightness(10); }
+
+    /* SOS flotante en hero */
+    .sos-hero-btn {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      z-index: 10;
+      background: var(--rojo);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 2px;
+      animation: sosPulse 1.5s infinite;
+      box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+    }
+
+    @keyframes sosPulse {
+      0% { box-shadow: 0 0 0 0 rgba(220,38,38,0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(220,38,38,0); }
+      100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); }
+    }
 
     .card-central {
       position: relative;
@@ -143,6 +174,7 @@
       box-shadow: 0 8px 25px rgba(0,201,167,0.4);
     }
 
+    /* ===== PORTAL ===== */
     .portal { display: none; min-height: 100vh; background: var(--gris-claro); }
 
     .portal-header {
@@ -167,7 +199,24 @@
     .header-brand img { height: 38px; filter: brightness(10); }
     .header-brand div h2 { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; color: white; }
     .header-brand div p { font-size: 11px; color: rgba(255,255,255,0.6); margin: 0; }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
     .header-badge { background: var(--turquesa); color: white; padding: 5px 14px; border-radius: 50px; font-size: 12px; font-weight: 600; }
+
+    /* SOS en header */
+    .sos-header-btn {
+      background: var(--rojo);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 2px;
+      animation: sosPulse 1.5s infinite;
+    }
 
     .portal-main { max-width: 1100px; margin: auto; padding: 30px 20px; }
 
@@ -200,6 +249,15 @@
     }
 
     .accion-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-bottom-color: var(--turquesa); }
+    .accion-card.sos-card {
+      background: var(--rojo);
+      color: white;
+      border-bottom-color: var(--rojo-oscuro);
+      animation: sosPulse 1.5s infinite;
+    }
+    .accion-card.sos-card:hover { background: var(--rojo-oscuro); transform: translateY(-4px); }
+    .accion-card.sos-card .accion-text { color: white; }
+
     .accion-icon { font-size: 32px; margin-bottom: 10px; }
     .accion-text { font-weight: 600; color: var(--azul); font-family: 'Rajdhani', sans-serif; font-size: 16px; letter-spacing: 0.5px; }
 
@@ -211,60 +269,18 @@
     .buscador-wrap input:focus { border-color: var(--turquesa); }
     .buscador-wrap::before { content: "🔍"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; }
 
-    .producto-card {
-      border: 1px solid #e8f0f8;
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      transition: all 0.3s;
-      background: #fafcff;
-    }
-
+    .producto-card { border: 1px solid #e8f0f8; border-radius: 12px; padding: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; background: #fafcff; }
     .producto-card:hover { border-color: var(--turquesa); box-shadow: 0 4px 15px rgba(0,201,167,0.1); }
     .producto-qr img { width: 70px; height: 70px; border-radius: 8px; }
     .producto-info { flex: 1; }
     .producto-nombre { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--azul); margin-bottom: 3px; }
     .producto-proveedor { font-size: 12px; color: #666; margin-bottom: 8px; }
-
     .btn-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    .btn-ver-fds {
-      background: var(--turquesa);
-      color: white;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.3s;
-    }
-
+    .btn-ver-fds { background: var(--turquesa); color: white; border: none; padding: 7px 14px; border-radius: 50px; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.3s; }
     .btn-ver-fds:hover { background: var(--turquesa-oscuro); transform: translateY(-1px); }
 
-    .btn-imprimir {
-      background: #0a2540;
-      color: white;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.3s;
-      font-family: 'Inter', sans-serif;
-    }
-
+    .btn-imprimir { background: #0a2540; color: white; border: none; padding: 7px 14px; border-radius: 50px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.3s; font-family: 'Inter', sans-serif; }
     .btn-imprimir:hover { background: #1a4a7a; transform: translateY(-1px); }
 
     .scanner-section { display: none; background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 20px; }
@@ -273,162 +289,251 @@
     .btn-cerrar { background: #ff4757; color: white; border: none; padding: 8px 18px; border-radius: 50px; cursor: pointer; font-size: 13px; margin-top: 12px; font-family: 'Inter', sans-serif; }
     .empty { text-align: center; padding: 30px; color: #aaa; }
 
-    /* ===== ESTILOS DE IMPRESIÓN ===== */
-    @media print {
-      body * { visibility: hidden; }
-      #etiqueta-print, #etiqueta-print * { visibility: visible; }
-      #etiqueta-print {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100mm;
-        height: 25mm;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    /* Etiqueta preview */
-    #etiqueta-print {
-      display: none;
-      width: 100mm;
-      height: 25mm;
-      background: white;
-      border: 1px solid #ccc;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
-
-    .etiqueta-inner {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-      padding: 2mm;
-      gap: 2mm;
-    }
-
-    .etiqueta-logo {
-      width: 18mm;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .etiqueta-logo img {
-      width: 16mm;
-      height: auto;
-    }
-
-    .etiqueta-texto {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .etiqueta-nombre {
-      font-size: 7pt;
-      font-weight: bold;
-      color: #0a2540;
-      text-transform: uppercase;
-      line-height: 1.2;
-    }
-
-    .etiqueta-proveedor {
-      font-size: 6pt;
-      color: #555;
-      margin-top: 1mm;
-    }
-
-    .etiqueta-qr {
-      width: 21mm;
-      flex-shrink: 0;
-    }
-
-    .etiqueta-qr img {
-      width: 21mm;
-      height: 21mm;
-    }
-
-    /* Modal impresión */
-    .modal-overlay {
+    /* ===== MODAL SOS ===== */
+    .sos-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 1000;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
       align-items: center;
       justify-content: center;
-    }
-
-    .modal-overlay.active { display: flex; }
-
-    .modal-box {
-      background: white;
-      border-radius: 16px;
-      padding: 30px;
-      max-width: 420px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-
-    .modal-titulo {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--azul);
-      margin-bottom: 5px;
-    }
-
-    .modal-sub { font-size: 13px; color: #666; margin-bottom: 20px; }
-
-    .etiqueta-preview-wrap {
-      border: 2px dashed #ccc;
-      border-radius: 8px;
       padding: 15px;
-      margin-bottom: 20px;
+    }
+
+    .sos-overlay.active { display: flex; }
+
+    .sos-modal {
+      background: white;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      animation: fadeUp 0.3s ease;
+    }
+
+    .sos-header {
+      background: var(--rojo);
+      padding: 20px 25px;
+      border-radius: 20px 20px 0 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .sos-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 3px;
+      margin-bottom: 3px;
+    }
+
+    .sos-header p { color: rgba(255,255,255,0.85); font-size: 13px; }
+
+    .sos-cerrar {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f9f9f9;
     }
 
+    .sos-body { padding: 20px 25px; }
+
+    /* Sección ABCDE */
+    .abcde-titulo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      background: var(--morado);
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .abcde-items { margin-bottom: 20px; }
+
+    .abcde-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .abcde-item:last-child { border-bottom: none; }
+
+    .abcde-letra {
+      width: 38px;
+      height: 38px;
+      background: var(--morado);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .abcde-texto h4 { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 2px; }
+    .abcde-texto p { font-size: 12px; color: #555; }
+
+    .abcde-nota {
+      background: #fff3cd;
+      border-left: 4px solid #f59e0b;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 20px;
+    }
+
+    /* Sección CECOM */
+    .cecom-titulo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      background: var(--celeste);
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cecom-intro {
+      background: #e0f2fe;
+      border-radius: 10px;
+      padding: 12px 15px;
+      font-size: 13px;
+      color: #0c4a6e;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .cecom-contactos { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+
+    .cecom-contacto {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 15px;
+    }
+
+    .cecom-tipo { font-size: 11px; font-weight: 700; color: var(--celeste); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .cecom-numero { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; color: var(--azul); margin-bottom: 4px; }
+    .cecom-frase { font-size: 11px; color: #666; font-style: italic; margin-bottom: 10px; }
+
+    .btn-llamar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--rojo);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn-llamar:hover { background: var(--rojo-oscuro); transform: translateY(-1px); }
+
+    .cecom-radial {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 12px 15px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .cecom-radial .cecom-tipo { color: #16a34a; }
+    .cecom-radial .cecom-numero { color: #15803d; }
+
+    /* Impresión etiqueta */
+    @media print {
+      body * { visibility: hidden; }
+      #etiqueta-print, #etiqueta-print * { visibility: visible; }
+      #etiqueta-print { position: fixed; left: 0; top: 0; width: 100mm; height: 25mm; margin: 0; padding: 0; }
+    }
+
+    #etiqueta-print { display: none; width: 100mm; height: 25mm; background: white; border: 1px solid #ccc; font-family: Arial, sans-serif; overflow: hidden; }
+    .etiqueta-inner { display: flex; width: 100%; height: 100%; align-items: center; padding: 2mm; gap: 2mm; }
+    .etiqueta-logo { width: 18mm; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .etiqueta-logo img { width: 16mm; height: auto; }
+    .etiqueta-texto { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .etiqueta-nombre { font-size: 7pt; font-weight: bold; color: #0a2540; text-transform: uppercase; line-height: 1.2; }
+    .etiqueta-proveedor { font-size: 6pt; color: #555; margin-top: 1mm; }
+    .etiqueta-qr { width: 21mm; flex-shrink: 0; }
+    .etiqueta-qr img { width: 21mm; height: 21mm; }
+
+    /* Modal impresión */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: white; border-radius: 16px; padding: 30px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .modal-titulo { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; color: var(--azul); margin-bottom: 5px; }
+    .modal-sub { font-size: 13px; color: #666; margin-bottom: 20px; }
+    .etiqueta-preview-wrap { border: 2px dashed #ccc; border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; background: #f9f9f9; }
     .modal-acciones { display: flex; gap: 10px; }
     .modal-acciones button { flex: 1; padding: 12px; border-radius: 50px; border: none; cursor: pointer; font-weight: 600; font-family: 'Inter', sans-serif; font-size: 14px; }
     .btn-cancelar { background: #f0f0f0; color: #333; }
     .btn-confirmar-print { background: var(--azul); color: white; }
-    .btn-confirmar-print:hover { background: var(--azul-medio); }
 
     @media (max-width: 480px) {
       .card-central { padding: 35px 25px; }
       .card-central h1 { font-size: 26px; }
       .collage { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
       .btn-acciones { flex-direction: column; }
+      .sos-modal { max-height: 95vh; }
     }
   </style>
 </head>
 <body>
 
-<!-- ETIQUETA OCULTA PARA IMPRESIÓN -->
+<!-- ETIQUETA IMPRESIÓN -->
 <div id="etiqueta-print">
   <div class="etiqueta-inner">
-    <div class="etiqueta-logo">
-      <img src="/logo.png" alt="Logo" id="print-logo">
-    </div>
+    <div class="etiqueta-logo"><img src="/logo.png" alt="Logo" id="print-logo"></div>
     <div class="etiqueta-texto">
       <div class="etiqueta-nombre" id="print-nombre"></div>
       <div class="etiqueta-proveedor" id="print-proveedor"></div>
     </div>
-    <div class="etiqueta-qr">
-      <img id="print-qr" src="" alt="QR">
-    </div>
+    <div class="etiqueta-qr"><img id="print-qr" src="" alt="QR"></div>
   </div>
 </div>
 
-<!-- MODAL PREVISUALIZACIÓN -->
+<!-- MODAL IMPRESIÓN -->
 <div class="modal-overlay" id="modal-print">
   <div class="modal-box">
     <div class="modal-titulo">🖨️ Imprimir Etiqueta</div>
@@ -450,7 +555,101 @@
   </div>
 </div>
 
-<!-- HERO -->
+<!-- ===== MODAL SOS ===== -->
+<div class="sos-overlay" id="sos-overlay">
+  <div class="sos-modal">
+    <div class="sos-header">
+      <button class="sos-cerrar" onclick="cerrarSOS()">✕</button>
+      <h2>🚨 S·O·S EMERGENCIA</h2>
+      <p>Protocolo de notificación de incidentes / accidentes</p>
+    </div>
+    <div class="sos-body">
+
+      <!-- ABCDE -->
+      <div class="abcde-titulo">📋 ¿Qué reportar a CECOM? Siga el protocolo ABCDE</div>
+      <div class="abcde-items">
+        <div class="abcde-item">
+          <div class="abcde-letra">A</div>
+          <div class="abcde-texto">
+            <h4>IDENTIFÍQUESE</h4>
+            <p>Brinde su nombre, empresa y cargo</p>
+          </div>
+        </div>
+        <div class="abcde-item">
+          <div class="abcde-letra">B</div>
+          <div class="abcde-texto">
+            <h4>UBICACIÓN</h4>
+            <p>Ubicación exacta y punto de referencia</p>
+          </div>
+        </div>
+        <div class="abcde-item">
+          <div class="abcde-letra">C</div>
+          <div class="abcde-texto">
+            <h4>DESCRIPCIÓN</h4>
+            <p>Sea específico en la descripción del evento</p>
+          </div>
+        </div>
+        <div class="abcde-item">
+          <div class="abcde-letra">D</div>
+          <div class="abcde-texto">
+            <h4>HERIDO</h4>
+            <p>Número de heridos y condición de su estado</p>
+          </div>
+        </div>
+        <div class="abcde-item">
+          <div class="abcde-letra">E</div>
+          <div class="abcde-texto">
+            <h4>CONTACTO</h4>
+            <p>Brinde su número de contacto</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="abcde-nota">
+        ⚠️ No corte la comunicación a menos que CECOM indique lo contrario
+      </div>
+
+      <!-- CECOM -->
+      <div class="cecom-titulo">📞 Reportar a CECOM — Centro de Control y Monitoreo</div>
+
+      <div class="cecom-intro">
+        El supervisor / responsable del área debe reportar a CECOM inmediatamente
+      </div>
+
+      <div class="cecom-contactos">
+        <div class="cecom-contacto">
+          <div class="cecom-tipo">📱 Celular — Opción 1</div>
+          <div class="cecom-numero">982 050 470</div>
+          <div class="cecom-frase">"Voy a reportar un accidente / incidente"</div>
+          <a href="tel:982050470" class="btn-llamar">📞 LLAMAR AHORA</a>
+        </div>
+
+        <div class="cecom-contacto">
+          <div class="cecom-tipo">📱 Celular — Opción 2</div>
+          <div class="cecom-numero">989 150 176</div>
+          <div class="cecom-frase">"Voy a reportar un accidente / incidente"</div>
+          <a href="tel:989150176" class="btn-llamar">📞 LLAMAR AHORA</a>
+        </div>
+
+        <div class="cecom-contacto">
+          <div class="cecom-tipo">☎️ Teléfono fijo</div>
+          <div class="cecom-numero">(01) 617 1300 — Anexo 1710</div>
+          <div class="cecom-frase">"Voy a reportar un accidente / incidente"</div>
+          <a href="tel:0161713001710" class="btn-llamar">📞 LLAMAR AHORA</a>
+        </div>
+
+        <div class="cecom-radial">
+          <div class="cecom-tipo">📻 Radial</div>
+          <div class="cecom-numero">Canal 1 (analógico)</div>
+          <div class="cecom-frase">"Atento CECOM, voy a reportar un accidente / incidente"</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
 <div class="hero" id="hero">
   <div class="collage">
     <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80" alt="">
@@ -461,18 +660,22 @@
     <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&q=80" alt="">
   </div>
   <div class="overlay"></div>
+
+  <button class="sos-hero-btn" onclick="abrirSOS()">🚨 SOS</button>
+
   <div class="logo-corner">
-    <img src="/logo.png" alt="Logo"> TSF3+
+    <img src="/logo.png" alt="Logo"> PROYECTO: SOTENIMIENTO - MARCOBRE
   </div>
+
   <div class="card-central">
     <h1>Portal FDS<br>Seguridad y SSOMA</h1>
-    <p>Sistema oficial de consulta de<br>Hojas de Datos de Seguridad<br>Proyecto Sostenimiento-MARCOBRE – Marcona, Ica</p>
+    <p>Sistema oficial de consulta de<br>Hojas de Datos de Seguridad<br>Proyecto 3+ – Marcona, Ica</p>
     <button class="btn-turquesa" onclick="entrarPortal()">🛡️ Consultar Hojas de Seguridad</button>
     <button class="btn-turquesa" style="background:rgba(255,255,255,0.15);margin-top:5px;" onclick="entrarPortal(); setTimeout(abrirScanner,500)">📷 Escanear Código QR</button>
   </div>
 </div>
 
-<!-- PORTAL -->
+<!-- ===== PORTAL ===== -->
 <div class="portal" id="portal">
   <header class="portal-header">
     <div class="header-inner">
@@ -483,7 +686,10 @@
           <p>Proyecto TSF3+ – Seguridad y SSOMA</p>
         </div>
       </div>
-      <span class="header-badge">🟢 En línea</span>
+      <div class="header-right">
+        <button class="sos-header-btn" onclick="abrirSOS()">🚨 SOS</button>
+        <span class="header-badge">🟢 En línea</span>
+      </div>
     </div>
   </header>
 
@@ -510,8 +716,13 @@
         <div class="accion-icon">📷</div>
         <div class="accion-text">Escanear QR</div>
       </button>
+      <button class="accion-card sos-card" onclick="abrirSOS()" style="grid-column: 1 / -1;">
+        <div class="accion-icon">🚨</div>
+        <div class="accion-text">SOS — EMERGENCIA CECOM</div>
+      </button>
     </div>
 
+    <!-- Scanner -->
     <div class="scanner-section" id="scanner-sec">
       <div class="seccion-titulo">📷 Escanear Código QR</div>
       <p style="color:#666;font-size:13px">Apunta la cámara al código QR del producto para ver su FDS.</p>
@@ -525,6 +736,7 @@
       <button class="btn-cerrar" onclick="cerrarScanner()">✖ Cerrar escáner</button>
     </div>
 
+    <!-- Productos -->
     <div class="seccion" id="productos-sec">
       <div class="seccion-titulo">📦 Sustancias químicas registradas</div>
       <div class="buscador-wrap">
@@ -570,9 +782,7 @@
       const div = document.createElement("div");
       div.className = "producto-card";
       div.innerHTML = `
-        <div class="producto-qr">
-          <img src="${qrUrl}" alt="QR">
-        </div>
+        <div class="producto-qr"><img src="${qrUrl}" alt="QR"></div>
         <div class="producto-info">
           <div class="producto-nombre">${p.nombre}</div>
           <div class="producto-proveedor">🏭 ${p.proveedor}</div>
@@ -598,21 +808,16 @@
     const url = decodeURIComponent(urlEncoded);
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
     productoActual = { nombre, proveedor, url, qrUrl };
-
     document.getElementById('prev-nombre').textContent = nombre;
     document.getElementById('prev-proveedor').textContent = proveedor;
     document.getElementById('prev-qr').src = qrUrl;
-
     document.getElementById('print-nombre').textContent = nombre;
     document.getElementById('print-proveedor').textContent = proveedor;
     document.getElementById('print-qr').src = qrUrl;
-
     document.getElementById('modal-print').classList.add('active');
   }
 
-  function cerrarModal() {
-    document.getElementById('modal-print').classList.remove('active');
-  }
+  function cerrarModal() { document.getElementById('modal-print').classList.remove('active'); }
 
   function ejecutarImpresion() {
     cerrarModal();
@@ -646,6 +851,16 @@
     if (html5QrCode) { html5QrCode.stop().catch(()=>{}); html5QrCode = null; }
     document.getElementById("scanner-sec").style.display = "none";
   }
+
+  function abrirSOS() { document.getElementById('sos-overlay').classList.add('active'); }
+  function cerrarSOS() { document.getElementById('sos-overlay').classList.remove('active'); }
+
+  // Cerrar SOS al tocar fuera
+  document.getElementById('sos-overlay').addEventListener('click', function(e) {
+    if (e.target === this) cerrarSOS();
+  });
+
+  cargar();
 </script>
 
 <script>
