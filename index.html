@@ -516,7 +516,27 @@
       .collage { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
       .btn-acciones { flex-direction: column; }
       .sos-modal { max-height: 95vh; }
-      .logo-corner { font-size: 16px; gap: 8px; }
+
+      /* Logo y proyecto: bajan y se alinean a la derecha, debajo del SOS */
+      .logo-corner {
+        top: 68px;
+        right: 15px;
+        left: 15px;
+        font-size: 13px;
+        gap: 8px;
+        letter-spacing: 0.5px;
+        justify-content: flex-end;
+        text-align: right;
+        flex-wrap: wrap;
+      }
+      .logo-corner svg { width: 55px; height: 22px; }
+
+      .sos-hero-btn {
+        top: 15px;
+        left: 15px;
+        padding: 8px 14px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
