@@ -75,15 +75,15 @@
       z-index: 10;
       color: white;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 700;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
     }
 
-    .logo-corner img { height: 40px; filter: brightness(10); }
+    .logo-corner svg { flex-shrink: 0; }
 
     /* SOS flotante en hero */
     .sos-hero-btn {
@@ -196,7 +196,7 @@
     }
 
     .header-brand { display: flex; align-items: center; gap: 12px; }
-    .header-brand img { height: 38px; filter: brightness(10); }
+    .header-brand svg { flex-shrink: 0; }
     .header-brand div h2 { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; color: white; }
     .header-brand div p { font-size: 11px; color: rgba(255,255,255,0.6); margin: 0; }
 
@@ -516,6 +516,7 @@
       .collage { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); }
       .btn-acciones { flex-direction: column; }
       .sos-modal { max-height: 95vh; }
+      .logo-corner { font-size: 16px; gap: 8px; }
     }
   </style>
 </head>
@@ -664,7 +665,12 @@
   <button class="sos-hero-btn" onclick="abrirSOS()">🚨 SOS</button>
 
   <div class="logo-corner">
-    <img src="/logo.png" alt="Logo"> PROYECTO: SOTENIMIENTO - MARCOBRE
+    <svg width="80" height="32" viewBox="0 0 100 38" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="29" font-family="'Arial Black', Arial, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="-2">JJC</text>
+      <path d="M64 6 L82 19 L64 32 Z" fill="#FFFFFF"/>
+      <path d="M74 8 L90 19 L74 30" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    PROYECTO: SOSTENIMIENTO - MARCOBRE
   </div>
 
   <div class="card-central">
@@ -680,7 +686,11 @@
   <header class="portal-header">
     <div class="header-inner">
       <div class="header-brand">
-        <img src="/logo.png" alt="Logo">
+        <svg width="70" height="28" viewBox="0 0 100 38" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="29" font-family="'Arial Black', Arial, sans-serif" font-size="30" font-weight="900" fill="#FFFFFF" letter-spacing="-2">JJC</text>
+          <path d="M64 6 L82 19 L64 32 Z" fill="#FFFFFF"/>
+          <path d="M74 8 L90 19 L74 30" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         <div>
           <h2>Portal FDS</h2>
           <p>Proyecto TSF3+ – Seguridad y SSOMA</p>
